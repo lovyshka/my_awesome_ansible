@@ -1,0 +1,111 @@
+---
+- name: manage web server
+  hosts: all
+  become: yes
+  tasks:
+
+    #заходим и узнаем кто мы
+    - name: register yum
+      stat:
+        path: /bin/yum
+      register: yum_stat
+
+    - name: register apt
+      stat: 
+        path: /bin/apt
+      register: apt_stat
+
+    #проверяем обновления
+    - name: update cache on deb
+      apt:
+        update_cache: yes
+      when: apt_stat.stat.exists
+
+    #накатываем пакеты
+    - name: install some packages
+      apt: 
+        name: 
+          - nano
+          - apache2
+          - mysql-server
+        state: latest
+      when: apt_stat.stat.exists
+  
+    #так как мы на бубе, и апача уже работает, то копируем
+    - name: copy default html page
+      copy: 
+        src: ~/my_awesome_ansible/files/start_page_ubuntu.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+      when: apt_stat.stat.exists
+ 
+   # рестартаем апачу и идем смотреть сайт
+    - name: restart apacha on buba
+      service: 
+        name: apache2
+        state: restarted
+        enabled: yes
+      when: apt_stat.stat.exists 
+  
+    - name: restart mysql on  buba
+      service: 
+        name: mysql
+        state: restarted
+        enabled: yes
+      when: apt_stat.stat.exists   
+
+   # обновляемся
+    - name: update cache
+      yum:
+        update_cache: yes
+      when: yum_stat.stat.exists
+
+
+   # качаем пакетики
+    - name: download some pages
+      yum:
+        name:
+          - httpd
+          - mariadb-server
+      when: yum_stat.stat.exists   
+
+   # подменяем страничку сайта
+    - name: copy html page
+      copy: 
+        src: ~/my_awesome_ansible/files/start_page_centos.html
+        dest: /var/www/html/index.html
+        owner: root
+        mode: 0644
+      when: yum_stat.stat.exists
+ 
+   # рестарт httpd сервисов на копейке
+    - name: restart services
+      service: 
+        name: httpd
+        state: restarted
+        enabled: true
+      when: yum_stat.stat.exists 
+
+    - name: restart mariadb
+      service:
+        name: mariadb
+        state: restarted
+        enabled: yes
+      when: yum_stat.stat.exists
+
+    # добавим правило в firewall для доступа к апаче
+    - name: enable connection to httpd
+      firewalld: 
+        service: http
+        permanent: true
+        state: enabled
+      when: yum_stat.stat.exists
+
+    - name: restast firewall
+      service: 
+        name: firewalld
+        state: restarted
+      when: yum_stat.stat.exists
+
