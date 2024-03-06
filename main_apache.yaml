@@ -7,11 +7,11 @@
     #с чем мы работаем прямо сейчас
     - include: playbooks/get_family.yaml
 
-    - include: playbooks/yum_playbook.yaml
-      when: rpm_like
+  #  - include: playbooks/yum_playbook.yaml
+  #    when: rpm_like
     
-    - include: playbooks/apt_playbook.yaml
-      when: debian_like
+  #  - include: playbooks/apt_playbook.yaml
+  #    when: debian_like
     
     - include: playbooks/static_ip_on_deb.yaml
       when: debian_like
