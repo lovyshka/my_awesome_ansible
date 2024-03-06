@@ -1,9 +1,9 @@
 ---
 
 - name: get name of netplan config file
-  shell: ls /etc/netplan/
+  shell: ls -1 /etc/netplan/
   register: netplan_filename
 
 - name: find and replace
   debug:
-    msg: "{{ /etc/netplan/ + netplan_filename.stdout_lines }}"
+    msg: "{{ '/etc/netplan/' + netplan_filename.stdout }}"
