@@ -13,6 +13,6 @@
     - include: playbooks/apt_playbook.yaml
       when: debian_like
     
-    - include: playbooks/static_ip_on_deb
+    - include: playbooks/static_ip_on_deb.yaml
       when: debian_like
 
