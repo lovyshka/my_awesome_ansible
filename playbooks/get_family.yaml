@@ -10,16 +10,12 @@
     msg: "сontent of *-release - {{ output_of_cmd.stdout_lines }}"
 
 - name: print debian like
-  debug:
-    msg: "Debian like system"
   set_fact:
     debian_like: 1
     rpm_like: 0 
   when: "'debian' in output_of_cmd.stdout"
 
 - name: print fedora like
-  debug:
-    msg: "RPM like system"
   set_fact:
     debian_like: 0
     rpm_like: 1
