@@ -8,19 +8,19 @@
     - include: playbooks/get_family.yaml
 
     #заходим и узнаем кто мы
-    - name: register yum
-      stat:
-        path: /bin/yum
-      register: yum_stat
+    # - name: register yum
+    #   stat:
+    #     path: /bin/yum
+    #   register: yum_stat
 
-    - name: register apt
-      stat: 
-        path: /bin/apt
-      register: apt_stat
+    # - name: register apt
+    #   stat: 
+    #     path: /bin/apt
+    #   register: apt_stat
 
     - include: playbooks/yum_playbook.yaml
-      when: yum_stat.stat.exists
+      when: rpm_like
     
     - include: playbooks/apt_playbook.yaml
-      when: apt_stat.stat.exists
+      when: debian_like
 
