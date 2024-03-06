@@ -7,20 +7,12 @@
     #с чем мы работаем прямо сейчас
     - include: playbooks/get_family.yaml
 
-    #заходим и узнаем кто мы
-    # - name: register yum
-    #   stat:
-    #     path: /bin/yum
-    #   register: yum_stat
-
-    # - name: register apt
-    #   stat: 
-    #     path: /bin/apt
-    #   register: apt_stat
-
     - include: playbooks/yum_playbook.yaml
       when: rpm_like
     
     - include: playbooks/apt_playbook.yaml
+      when: debian_like
+    
+    - include: playbooks/static_ip_on_deb
       when: debian_like
 
