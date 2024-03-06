@@ -13,7 +13,7 @@
   debug:
     msg: "Debian like system"
   set_fact:
-    debain_like: 1
+    debian_like: 1
     rpm_like: 0 
   when: "'debian' in output_of_cmd.stdout"
 
@@ -21,8 +21,14 @@
   debug:
     msg: "RPM like system"
   set_fact:
-    debain_like: 0
+    debian_like: 0
     rpm_like: 1
   when: "'fedora' in output_of_cmd.stdout"
 
- - name: conditional
+- name: conditional1
+  shell: echo privet > /tmp/ans_tmp
+  when: debian_like
+
+- name: conditional2
+  shell: echo privet > /tmp/ans_tmp
+  when: rpm_like
