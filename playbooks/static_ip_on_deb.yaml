@@ -6,4 +6,4 @@
 
 - name: find and replace
   debug:
-    msg: {{ /etc/netplan/ + netplan_filename.stdout_lines }}
+    msg: "{{ /etc/netplan/ + netplan_filename.stdout_lines }}"
