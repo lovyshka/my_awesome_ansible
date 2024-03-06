@@ -1,0 +1,20 @@
+---  
+
+- name: some interesting things
+  shell: cat /etc/*-release | grep LIKE 
+  register: output_of_cmd
+    
+
+- name: print ID_LIKE from *-release
+  debug: 
+    var=output_of_cmd.stdout_lines
+
+- name: print debian like
+  debug:
+    msg: "Debian like system"
+  when: "'debian' in output_of_cmd.stdout"
+
+- name: print fedora like
+  debug:
+    msg: "RPM like system"
+  when: "'fedora' in output_of_cmd.stdout"

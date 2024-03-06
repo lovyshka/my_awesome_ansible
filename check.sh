@@ -1,1 +1,1 @@
-ansible-playbook --syntax-check install_apache.yaml
+ansible-playbook --syntax-check $1

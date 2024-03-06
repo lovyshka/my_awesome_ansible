@@ -1,0 +1,26 @@
+---
+- name: manage web server
+  hosts: all
+  become: yes
+  tasks:
+
+    #с чем мы работаем прямо сейчас
+    - include: playbooks/get_family.yaml
+
+    #заходим и узнаем кто мы
+    - name: register yum
+      stat:
+        path: /bin/yum
+      register: yum_stat
+
+    - name: register apt
+      stat: 
+        path: /bin/apt
+      register: apt_stat
+
+    - include: playbooks/yum_playbook.yaml
+      when: yum_stat.stat.exists
+    
+    - include: playbooks/apt_playbook.yaml
+      when: apt_stat.stat.exists
+

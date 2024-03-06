@@ -1,0 +1,34 @@
+---
+
+- name: update cache on deb
+  apt: 
+    update_cache: yes
+ 
+- name: install some packages
+  apt:
+    name:
+      - nano 
+      - apache2
+      - mysql-server
+    state: latest
+
+- name: copy default html
+  copy:
+    src: ~/my_awesome_ansible/files/start_page_ubuntu.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root 
+    mode: 0644
+
+- name: restart apacha on buba
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
+
+- name: restart mysql on  buba
+  service:
+    name: mysql
+    state: restarted
+    enabled: yes
+
