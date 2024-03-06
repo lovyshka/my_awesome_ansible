@@ -5,5 +5,12 @@
   register: netplan_filename
 
 - name: find and replace
-  debug:
-    msg: "{{ '/etc/netplan/' + netplan_filename.stdout }}"
+  vars:
+    full_netplan_path: "{{ '/etc/netplan/' + netplan_filename.stdout }}"
+
+- name: replace in netplan config
+  replace:
+    path: full_netplan_path
+    regexp: 'x.x.x.x/x'
+    replace: '10.0.10.1/16'
+    
