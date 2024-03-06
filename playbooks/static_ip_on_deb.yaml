@@ -10,7 +10,7 @@
 
 - name: replace in netplan config
   replace:
-    path: /tmp/kal
+    path: /tmp/kal.txt
     regexp: '[*]'
     replace: '[10.0.10.1/16]'
 
