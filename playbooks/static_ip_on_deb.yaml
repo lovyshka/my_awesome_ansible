@@ -10,7 +10,7 @@
 
 - name: replace in netplan config
   replace:
-    path: {{ full_netplan_path }}
+    path: "{{ full_netplan_path }}"
     regexp: 'x.x.x.x/x'
     replace: '10.0.10.1/16'
 
